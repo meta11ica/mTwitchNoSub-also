@@ -31,10 +31,7 @@ const app = () => {
                     'type': 'redirect',
                     'redirect': { url: cdnLink }
                 },
-                'condition': { urlFilter: [
-				'https://static.twitchcdn.net/assets/amazon-ivs-wasmworker.min-*.js',
-				'https://m.twitch.tv/_next/static/media/amazon-ivs-wasmworker.min*.js'
-				]
+                'condition': { urlFilter: 'https://static.twitchcdn.net/assets/amazon-ivs-wasmworker.min-*.js'
 				}
             },
 			{
@@ -42,11 +39,19 @@ const app = () => {
                 'priority': 1,
                 'action': {
                     'type': 'redirect',
+                    'redirect': { url: cdnLink }
+                },
+                'condition': { urlFilter: 'https://m.twitch.tv/_next/static/media/amazon-ivs-wasmworker.min*.js'
+				}
+            },
+			{
+                'id': 1003,
+                'priority': 1,
+                'action': {
+                    'type': 'redirect',
                     'redirect': { url: cdnLink2 }
                 },
-                'condition': { urlFilter: [
-				'https://m.twitch.tv/_next/static/chunks/pages/_app*.js'
-				]
+                'condition': { urlFilter: 'https://m.twitch.tv/_next/static/chunks/pages/_app*.js'
 				}
             }
 			
