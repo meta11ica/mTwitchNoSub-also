@@ -1,7 +1,7 @@
 {
-    "name": "TwitchNoSub",
-    "version": "0.7",
-    "description": "Show sub only VOD on Twitch",
+    "name": "mTwitchNoSubalso",
+    "version": "1.0",
+    "description": "Show sub only VOD on Twitch PC and mobile",
     "manifest_version": 2,
     "icons": {
         "128": "assets/icons/icon.png"
@@ -27,7 +27,7 @@
     ],
     "browser_specific_settings": {
         "gecko": {
-            "id": "twitchnosub@besuper.com",
+            "id": "mtwitchnosub-also",
             "strict_min_version": "48.0"
         }
     }

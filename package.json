@@ -1,20 +1,20 @@
 {
-    "name": "twitchnosub",
+    "name": "mtwitchnosub-also",
     "version": "1.0.0",
-    "description": "An extension to show sub only VOD on Twitch",
+    "description": "An extension to show sub only VOD on Twitch PC and mobile",
     "scripts": {
         "patch": "node tools/patch.js"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/besuper/TwitchNoSub.git"
+        "url": "git+https://github.com/meta11ica/mTwitchNoSub-also.git"
     },
-    "author": "besuper",
+    "author": "meta11ica",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/besuper/TwitchNoSub/issues"
+        "url": "https://github.com/meta11ica/mTwitchNoSub-also/issues"
     },
-    "homepage": "https://github.com/besuper/TwitchNoSub#readme",
+    "homepage": "https://github.com/meta11ica/mTwitchNoSub-also#readme",
     "dependencies": {
         "amazon-ivs-player": "1.23.0"
     }

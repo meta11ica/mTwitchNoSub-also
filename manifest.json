@@ -1,7 +1,7 @@
 {
-    "name": "TwitchNoSub",
-    "version": "0.7",
-    "description": "Show sub only VOD on Twitch",
+    "name": "mTwitchNoSubalso",
+    "version": "1.0",
+    "description": "Show sub only VOD on Twitch PC and mobile",
     "manifest_version": 3,
     "icons": {
         "128": "assets/icons/icon.png"
