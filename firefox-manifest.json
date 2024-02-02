@@ -22,7 +22,8 @@
         "webRequest",
         "webRequestBlocking",
         "https://*.twitch.tv/*",
-        "https://static.twitchcdn.net/assets/*"
+        "https://static.twitchcdn.net/assets/*",
+    "https://api.twitch.tv/kraken/*"
     ],
     "browser_specific_settings": {
         "gecko": {
