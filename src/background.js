@@ -7,6 +7,10 @@ chrome.webNavigation.onBeforeNavigate.addListener(function () {
 
 var isChrome = chrome.declarativeNetRequest != undefined;
 var cdnLink = '';
+var cdnLink2 ='';
+if (typeof browser === "undefined") {
+    var browser = chrome;
+}
 
 if (isChrome) {
     // Fix brave extensions
@@ -27,18 +31,41 @@ const app = () => {
                     'type': 'redirect',
                     'redirect': { url: cdnLink }
                 },
-                'condition': { urlFilter: 'https://static.twitchcdn.net/assets/amazon-ivs-wasmworker.min-*.js' }
-            }],
+                'condition': { urlFilter: [
+				'https://static.twitchcdn.net/assets/amazon-ivs-wasmworker.min-*.js',
+				'https://m.twitch.tv/_next/static/media/amazon-ivs-wasmworker.min*.js'
+				]
+				}
+            },
+			{
+                'id': 1002,
+                'priority': 1,
+                'action': {
+                    'type': 'redirect',
+                    'redirect': { url: cdnLink2 }
+                },
+                'condition': { urlFilter: [
+				'https://m.twitch.tv/_next/static/chunks/pages/_app*.js'
+				]
+				}
+            }
+			
+			],
             removeRuleIds: [1001]
         });
     } else {
         // Support firefox here
-        browser.webRequest.onBeforeRequest.addListener(() => {
-            return { redirectUrl: cdnLink };
-        }, {
-            urls: ["https://static.twitchcdn.net/assets/amazon-ivs-wasmworker.min-*.js"],
-            types: ["main_frame", "script"]
-        }, ["blocking"]);
+		browser.webRequest.onBeforeRequest.addListener(
+		  blockAndRedirect,
+		  { urls: ["https://static.twitchcdn.net/assets/amazon-ivs-wasmworker.min-*.js", "https://m.twitch.tv/_next/static/media/amazon-ivs-wasmworker.min*.js", "https://m.twitch.tv/_next/static/chunks/pages/_app*.js"],
+			types: ["main_frame", "script"]},
+		  ["blocking"]
+		);
+		
+		
+		
+		
+		
     }
 
 };
@@ -46,21 +73,36 @@ const app = () => {
 (async () => {
     // Fetching current CDN link
     try {
-        const response = await fetch("https://api.github.com/repos/besuper/TwitchNoSub/commits");
+        const response = await fetch("https://api.github.com/repos/meta11ica/mTwitchNoSub-also/commits");
         const content = await response.json();
 
         var latestCommit = content[0].sha;
 
         console.log("Lastest commit sha: " + latestCommit);
 
-        cdnLink = `https://cdn.jsdelivr.net/gh/besuper/TwitchNoSub@${latestCommit}/src/amazon-ivs-worker.min.js`;
+        cdnLink = `https://cdn.jsdelivr.net/gh/meta11ica/mTwitchNoSub-also@${latestCommit}/src/amazon-ivs-worker.min.js`;
+		cdnLink2 = `https://cdn.jsdelivr.net/gh/meta11ica/mTwitchNoSub-also@${latestCommit}/src/app-mtwitch.min.js`;
     } catch (e) {
         console.log(e);
 
-        cdnLink = `https://cdn.jsdelivr.net/gh/besuper/TwitchNoSub/src/amazon-ivs-worker.min.js`;
+        cdnLink = `https://cdn.jsdelivr.net/gh/meta11ica/mTwitchNoSub-also/src/amazon-ivs-worker.min.js`;
+		cdnLink2 = `https://cdn.jsdelivr.net/gh/meta11ica/mTwitchNoSub-also/src/app-mtwitch.min.js`;
     }
-
-    console.log("CDN link : " + cdnLink);
 
     app();
 })();
+
+function blockAndRedirect(details) {
+  let url = new URL(details.url);
+
+  if (url.href.startsWith("https://m.twitch.tv/_next/static/chunks/pages/_app-")) {
+    return { redirectUrl: cdnLink2 };
+  } else if (url.href.startsWith("https://static.twitchcdn.net/assets/amazon-ivs-wasmworker.min")) {
+    return { redirectUrl: cdnLink };
+  } else if (url.href.startsWith("https://m.twitch.tv/_next/static/media/amazon-ivs-wasmworker.min")) {
+    return { redirectUrl: cdnLink };
+  }
+
+  // If the URL doesn't match any of the patterns, continue with the request
+  return { cancel: false };
+}
